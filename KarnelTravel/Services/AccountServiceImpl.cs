@@ -78,6 +78,12 @@ public class AccountServiceImpl : IAccountService
         return await db.ForgetPasswords.FirstOrDefaultAsync(r => r.Token == token);
     }
 
+    public bool IsActive(string email)
+    {
+        var activeAccount = db.ActiveAccounts.FirstOrDefault(x => x.Email == email);
+        return activeAccount != null && activeAccount.IsActive;
+    }
+
     // if exist email => return true, else => return false
     public async Task<bool> IsExistEmail(string email)
     {

@@ -9,13 +9,15 @@ public partial class Site
 
     public string SiteName { get; set; } = null!;
 
-    public int LocationId { get; set; }
+    public string? SiteLocation { get; set; }
+
+    public int? LocationId { get; set; }
 
     public int TypeId { get; set; }
 
     public bool IsHide { get; set; }
 
-    public virtual Location Location { get; set; } = null!;
+    public virtual Location? Location { get; set; }
 
     public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
 

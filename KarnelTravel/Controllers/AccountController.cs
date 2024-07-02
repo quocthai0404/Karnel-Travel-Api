@@ -1,6 +1,7 @@
 ﻿using KarnelTravel.DTO;
 using KarnelTravel.Models;
 using KarnelTravel.Services;
+using KarnelTravel.Validate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -36,7 +37,9 @@ public class AccountController : ControllerBase
             return BadRequest(new Response { Code = "400", Msg = "Error, Email already exists!" });
         }
 
-
+        if (!Email.IsValidEmailAddress(userDTO.Email)) {
+            return BadRequest(new Response { Msg = "Error, The email you entered is not valid!" });
+        }
 
         string url = configuration["BaseUrl"];
         string securityCode = Helpers.RandomHelper.generateSecurityCode();
@@ -74,6 +77,10 @@ public class AccountController : ControllerBase
         if (!accountService.Login(account.email, account.password))
         {
             return BadRequest(new Response { Code = "400", Msg = "Login Failed" });
+        }
+
+        if (!accountService.IsActive(account.email)) {
+            return BadRequest(new Response { Msg = "You need to activate your account before logging in" });
         }
         var claims = new[] {
             new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),

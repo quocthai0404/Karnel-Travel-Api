@@ -19,8 +19,6 @@ public partial class Photo
 
     public int? SiteId { get; set; }
 
-    public bool IsHide { get; set; }
-
     public virtual Beach? Beach { get; set; }
 
     public virtual Hotel? Hotel { get; set; }

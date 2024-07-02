@@ -79,11 +79,11 @@ public partial class DatabaseContext : DbContext
     {
         modelBuilder.Entity<ActiveAccount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__active_a__3213E83F8F42B9C6");
+            entity.HasKey(e => e.Id).HasName("PK__active_a__3213E83F0F160460");
 
             entity.ToTable("active_account");
 
-            entity.HasIndex(e => e.Email, "UQ__active_a__AB6E6164C541D0E9").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__active_a__AB6E616465CF299C").IsUnique();
 
             entity.HasIndex(e => e.SecurityCode, "idx_security_code");
 
@@ -101,7 +101,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<AdminAccount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__admin_ac__3213E83FD990EFD2");
+            entity.HasKey(e => e.Id).HasName("PK__admin_ac__3213E83F40B639A5");
 
             entity.ToTable("admin_account");
 
@@ -118,7 +118,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Airport>(entity =>
         {
-            entity.HasKey(e => e.AirportId).HasName("PK__airport__C795D516E72306BB");
+            entity.HasKey(e => e.AirportId).HasName("PK__airport__C795D516174F5F68");
 
             entity.ToTable("airport");
 
@@ -135,13 +135,17 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Beach>(entity =>
         {
-            entity.HasKey(e => e.BeachId).HasName("PK__beach__7DED2FB01697B04F");
+            entity.HasKey(e => e.BeachId).HasName("PK__beach__7DED2FB0EE7A9367");
 
             entity.ToTable("beach");
 
             entity.HasIndex(e => e.BeachName, "idx_beach_name");
 
             entity.Property(e => e.BeachId).HasColumnName("beach_id");
+            entity.Property(e => e.BeachLocation)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("beach_location");
             entity.Property(e => e.BeachName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -151,13 +155,12 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Location).WithMany(p => p.Beaches)
                 .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__beach__location___6383C8BA");
+                .HasConstraintName("FK__beach__location___6C190EBB");
         });
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__booking__5DE3A5B10E136E4D");
+            entity.HasKey(e => e.BookingId).HasName("PK__booking__5DE3A5B1A995513D");
 
             entity.ToTable("booking");
 
@@ -174,20 +177,20 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Flight).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.FlightId)
-                .HasConstraintName("FK__booking__flight___00200768");
+                .HasConstraintName("FK__booking__flight___0B91BA14");
 
             entity.HasOne(d => d.Hotel).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.HotelId)
-                .HasConstraintName("FK__booking__hotel_i__01142BA1");
+                .HasConstraintName("FK__booking__hotel_i__0C85DE4D");
 
             entity.HasOne(d => d.Tour).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.TourId)
-                .HasConstraintName("FK__booking__tour_id__02084FDA");
+                .HasConstraintName("FK__booking__tour_id__0D7A0286");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__booking__user_id__7F2BE32F");
+                .HasConstraintName("FK__booking__user_id__0A9D95DB");
         });
 
         modelBuilder.Entity<Discount>(entity =>
@@ -196,7 +199,7 @@ public partial class DatabaseContext : DbContext
                 .HasNoKey()
                 .ToTable("discount");
 
-            entity.HasIndex(e => e.DiscountCode, "UQ__discount__75C1F0063165B117").IsUnique();
+            entity.HasIndex(e => e.DiscountCode, "UQ__discount__75C1F006ED7BDC24").IsUnique();
 
             entity.Property(e => e.DiscountCode)
                 .HasMaxLength(15)
@@ -207,7 +210,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<District>(entity =>
         {
-            entity.HasKey(e => e.DistrictId).HasName("PK__district__2521322B49719AC7");
+            entity.HasKey(e => e.DistrictId).HasName("PK__district__2521322B492DF372");
 
             entity.ToTable("district");
 
@@ -221,12 +224,12 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Province).WithMany(p => p.Districts)
                 .HasForeignKey(d => d.ProvinceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__district__provin__3C69FB99");
+                .HasConstraintName("FK__district__provin__3D5E1FD2");
         });
 
         modelBuilder.Entity<Facility>(entity =>
         {
-            entity.HasKey(e => e.FacilityId).HasName("PK__facility__B2E8EAAEC298AE2C");
+            entity.HasKey(e => e.FacilityId).HasName("PK__facility__B2E8EAAEF814A3FD");
 
             entity.ToTable("facility");
 
@@ -237,7 +240,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Flight>(entity =>
         {
-            entity.HasKey(e => e.FlightId).HasName("PK__flight__E3705765C0D08F76");
+            entity.HasKey(e => e.FlightId).HasName("PK__flight__E3705765E6BCF89C");
 
             entity.ToTable("flight");
 
@@ -261,21 +264,21 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.ArrivalAirport).WithMany(p => p.FlightArrivalAirports)
                 .HasForeignKey(d => d.ArrivalAirportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__flight__arrival___7C4F7684");
+                .HasConstraintName("FK__flight__arrival___07C12930");
 
             entity.HasOne(d => d.DepartureAirport).WithMany(p => p.FlightDepartureAirports)
                 .HasForeignKey(d => d.DepartureAirportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__flight__departur__7B5B524B");
+                .HasConstraintName("FK__flight__departur__06CD04F7");
         });
 
         modelBuilder.Entity<FlightInvoice>(entity =>
         {
-            entity.HasKey(e => e.FlightInvoiceId).HasName("PK__flight_i__54F1175F9B5071EF");
+            entity.HasKey(e => e.FlightInvoiceId).HasName("PK__flight_i__54F1175F63C990F4");
 
             entity.ToTable("flight_invoice");
 
-            entity.HasIndex(e => e.BookingId, "UQ__flight_i__5DE3A5B0684DF242").IsUnique();
+            entity.HasIndex(e => e.BookingId, "UQ__flight_i__5DE3A5B033EE64A4").IsUnique();
 
             entity.Property(e => e.FlightInvoiceId).HasColumnName("flight_invoice_id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -293,12 +296,12 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Booking).WithOne(p => p.FlightInvoice)
                 .HasForeignKey<FlightInvoice>(d => d.BookingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__flight_in__booki__0E6E26BF");
+                .HasConstraintName("FK__flight_in__booki__19DFD96B");
         });
 
         modelBuilder.Entity<ForgetPassword>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__forget_p__3213E83F54D5851B");
+            entity.HasKey(e => e.Id).HasName("PK__forget_p__3213E83F0D08FA32");
 
             entity.ToTable("forget_password");
 
@@ -318,7 +321,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Hotel>(entity =>
         {
-            entity.HasKey(e => e.HotelId).HasName("PK__hotel__45FE7E26DF3C9F20");
+            entity.HasKey(e => e.HotelId).HasName("PK__hotel__45FE7E26600A4A90");
 
             entity.ToTable("hotel");
 
@@ -328,6 +331,10 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.HotelDescription)
                 .HasColumnType("text")
                 .HasColumnName("hotel_description");
+            entity.Property(e => e.HotelLocation)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("hotel_location");
             entity.Property(e => e.HotelName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -341,8 +348,7 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Location).WithMany(p => p.Hotels)
                 .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__hotel__location___4AB81AF0");
+                .HasConstraintName("FK__hotel__location___4D94879B");
 
             entity.HasMany(d => d.Facilities).WithMany(p => p.Hotels)
                 .UsingEntity<Dictionary<string, object>>(
@@ -357,7 +363,7 @@ public partial class DatabaseContext : DbContext
                         .HasConstraintName("fk_hotel_facility__hotel"),
                     j =>
                     {
-                        j.HasKey("HotelId", "FacilityId").HasName("PK__hotel_fa__BED0F08C4802F881");
+                        j.HasKey("HotelId", "FacilityId").HasName("PK__hotel_fa__BED0F08C0752F5CC");
                         j.ToTable("hotel_facility");
                         j.IndexerProperty<int>("HotelId").HasColumnName("hotel_id");
                         j.IndexerProperty<int>("FacilityId").HasColumnName("facility_id");
@@ -366,11 +372,11 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<HotelInvoice>(entity =>
         {
-            entity.HasKey(e => e.HotelInvoiceId).HasName("PK__hotel_in__53B4F48C483AD93D");
+            entity.HasKey(e => e.HotelInvoiceId).HasName("PK__hotel_in__53B4F48CF574DB21");
 
             entity.ToTable("hotel_invoice");
 
-            entity.HasIndex(e => e.BookingId, "UQ__hotel_in__5DE3A5B009AF982A").IsUnique();
+            entity.HasIndex(e => e.BookingId, "UQ__hotel_in__5DE3A5B015249CEA").IsUnique();
 
             entity.Property(e => e.HotelInvoiceId).HasColumnName("hotel_invoice_id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -397,17 +403,17 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Booking).WithOne(p => p.HotelInvoice)
                 .HasForeignKey<HotelInvoice>(d => d.BookingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__hotel_inv__booki__05D8E0BE");
+                .HasConstraintName("FK__hotel_inv__booki__114A936A");
 
             entity.HasOne(d => d.Room).WithMany(p => p.HotelInvoices)
                 .HasForeignKey(d => d.RoomId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__hotel_inv__room___06CD04F7");
+                .HasConstraintName("FK__hotel_inv__room___123EB7A3");
         });
 
         modelBuilder.Entity<Location>(entity =>
         {
-            entity.HasKey(e => e.LocationId).HasName("PK__location__771831EA667B5B74");
+            entity.HasKey(e => e.LocationId).HasName("PK__location__771831EAB61900F2");
 
             entity.ToTable("location");
 
@@ -425,27 +431,27 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.District).WithMany(p => p.Locations)
                 .HasForeignKey(d => d.DistrictId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__location__distri__45F365D3");
+                .HasConstraintName("FK__location__distri__47DBAE45");
 
             entity.HasOne(d => d.Province).WithMany(p => p.Locations)
                 .HasForeignKey(d => d.ProvinceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__location__provin__44FF419A");
+                .HasConstraintName("FK__location__provin__46E78A0C");
 
             entity.HasOne(d => d.Street).WithMany(p => p.Locations)
                 .HasForeignKey(d => d.StreetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__location__street__47DBAE45");
+                .HasConstraintName("FK__location__street__49C3F6B7");
 
             entity.HasOne(d => d.Ward).WithMany(p => p.Locations)
                 .HasForeignKey(d => d.WardId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__location__ward_i__46E78A0C");
+                .HasConstraintName("FK__location__ward_i__48CFD27E");
         });
 
         modelBuilder.Entity<Photo>(entity =>
         {
-            entity.HasKey(e => e.PhotoId).HasName("PK__photo__CB48C83D422A9F35");
+            entity.HasKey(e => e.PhotoId).HasName("PK__photo__CB48C83D4187A177");
 
             entity.ToTable("photo");
 
@@ -454,9 +460,8 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.PhotoId).HasColumnName("photo_id");
             entity.Property(e => e.BeachId).HasColumnName("beach_id");
             entity.Property(e => e.HotelId).HasColumnName("hotel_id");
-            entity.Property(e => e.IsHide).HasColumnName("is_hide");
             entity.Property(e => e.PhotoUrl)
-                .HasMaxLength(256)
+                .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("photo_url");
             entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
@@ -465,28 +470,28 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Beach).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.BeachId)
-                .HasConstraintName("FK__photo__beach_id__693CA210");
+                .HasConstraintName("FK__photo__beach_id__71D1E811");
 
             entity.HasOne(d => d.Hotel).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.HotelId)
-                .HasConstraintName("FK__photo__hotel_id__66603565");
+                .HasConstraintName("FK__photo__hotel_id__6EF57B66");
 
             entity.HasOne(d => d.Restaurant).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.RestaurantId)
-                .HasConstraintName("FK__photo__restauran__68487DD7");
+                .HasConstraintName("FK__photo__restauran__70DDC3D8");
 
             entity.HasOne(d => d.Room).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.RoomId)
-                .HasConstraintName("FK__photo__room_id__6754599E");
+                .HasConstraintName("FK__photo__room_id__6FE99F9F");
 
             entity.HasOne(d => d.Site).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.SiteId)
-                .HasConstraintName("FK__photo__site_id__6A30C649");
+                .HasConstraintName("FK__photo__site_id__72C60C4A");
         });
 
         modelBuilder.Entity<Province>(entity =>
         {
-            entity.HasKey(e => e.ProvinceId).HasName("PK__province__08DCB60F1A890A0F");
+            entity.HasKey(e => e.ProvinceId).HasName("PK__province__08DCB60F5B3F389C");
 
             entity.ToTable("province");
 
@@ -499,7 +504,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Restaurant>(entity =>
         {
-            entity.HasKey(e => e.RestaurantId).HasName("PK__restaura__3B0FAA914ADF3678");
+            entity.HasKey(e => e.RestaurantId).HasName("PK__restaura__3B0FAA91B467EACB");
 
             entity.ToTable("restaurant");
 
@@ -511,6 +516,10 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.RestaurantDescription)
                 .HasColumnType("text")
                 .HasColumnName("restaurant_description");
+            entity.Property(e => e.RestaurantLocation)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("restaurant_location");
             entity.Property(e => e.RestaurantName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -522,13 +531,12 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Location).WithMany(p => p.Restaurants)
                 .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__restauran__locat__5629CD9C");
+                .HasConstraintName("FK__restauran__locat__5BE2A6F2");
         });
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__review__60883D90B34662B6");
+            entity.HasKey(e => e.ReviewId).HasName("PK__review__60883D90BC610A1F");
 
             entity.ToTable("review");
 
@@ -549,22 +557,22 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Hotel).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.HotelId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__review__hotel_id__59063A47");
+                .HasConstraintName("FK__review__hotel_id__5FB337D6");
 
             entity.HasOne(d => d.Restaurant).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.RestaurantId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__review__restaura__5AEE82B9");
+                .HasConstraintName("FK__review__restaura__619B8048");
 
             entity.HasOne(d => d.User).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__review__user_id__59FA5E80");
+                .HasConstraintName("FK__review__user_id__60A75C0F");
         });
 
         modelBuilder.Entity<Room>(entity =>
         {
-            entity.HasKey(e => e.RoomId).HasName("PK__room__19675A8A19B0D882");
+            entity.HasKey(e => e.RoomId).HasName("PK__room__19675A8A0649A1DD");
 
             entity.ToTable("room");
 
@@ -585,7 +593,7 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Hotel).WithMany(p => p.Rooms)
                 .HasForeignKey(d => d.HotelId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__room__hotel_id__4D94879B");
+                .HasConstraintName("FK__room__hotel_id__5165187F");
         });
 
         modelBuilder.Entity<RoomHotelQuantity>(entity =>
@@ -602,7 +610,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Site>(entity =>
         {
-            entity.HasKey(e => e.SiteId).HasName("PK__site__B22FDBCA262C8D82");
+            entity.HasKey(e => e.SiteId).HasName("PK__site__B22FDBCA9DE17C75");
 
             entity.ToTable("site");
 
@@ -611,6 +619,10 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.SiteId).HasColumnName("site_id");
             entity.Property(e => e.IsHide).HasColumnName("is_hide");
             entity.Property(e => e.LocationId).HasColumnName("location_id");
+            entity.Property(e => e.SiteLocation)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("site_location");
             entity.Property(e => e.SiteName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -619,18 +631,17 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Location).WithMany(p => p.Sites)
                 .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__site__location_i__5FB337D6");
+                .HasConstraintName("FK__site__location_i__6754599E");
 
             entity.HasOne(d => d.Type).WithMany(p => p.Sites)
                 .HasForeignKey(d => d.TypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__site__type_id__60A75C0F");
+                .HasConstraintName("FK__site__type_id__68487DD7");
         });
 
         modelBuilder.Entity<SiteType>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__site_typ__2C000598E4E787A7");
+            entity.HasKey(e => e.TypeId).HasName("PK__site_typ__2C000598767C65C7");
 
             entity.ToTable("site_type");
 
@@ -643,7 +654,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Street>(entity =>
         {
-            entity.HasKey(e => e.StreetId).HasName("PK__street__665BB66B421CD3EA");
+            entity.HasKey(e => e.StreetId).HasName("PK__street__665BB66B4F08B9C6");
 
             entity.ToTable("street");
 
@@ -657,12 +668,12 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Ward).WithMany(p => p.Streets)
                 .HasForeignKey(d => d.WardId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__street__ward_id__4222D4EF");
+                .HasConstraintName("FK__street__ward_id__4316F928");
         });
 
         modelBuilder.Entity<Tour>(entity =>
         {
-            entity.HasKey(e => e.TourId).HasName("PK__tour__4B16B9E66F5E0E1F");
+            entity.HasKey(e => e.TourId).HasName("PK__tour__4B16B9E65A521A11");
 
             entity.ToTable("tour");
 
@@ -684,21 +695,21 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.ArrivalNavigation).WithMany(p => p.TourArrivalNavigations)
                 .HasForeignKey(d => d.Arrival)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__tour__arrival__6E01572D");
+                .HasConstraintName("FK__tour__arrival__778AC167");
 
             entity.HasOne(d => d.DepartureNavigation).WithMany(p => p.TourDepartureNavigations)
                 .HasForeignKey(d => d.Departure)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__tour__departure__6D0D32F4");
+                .HasConstraintName("FK__tour__departure__76969D2E");
         });
 
         modelBuilder.Entity<TourInvoice>(entity =>
         {
-            entity.HasKey(e => e.TourInvoiceId).HasName("PK__tour_inv__CDD7DA85A6415A07");
+            entity.HasKey(e => e.TourInvoiceId).HasName("PK__tour_inv__CDD7DA851CCB16D2");
 
             entity.ToTable("tour_invoice");
 
-            entity.HasIndex(e => e.BookingId, "UQ__tour_inv__5DE3A5B0DA66631D").IsUnique();
+            entity.HasIndex(e => e.BookingId, "UQ__tour_inv__5DE3A5B0A07FF072").IsUnique();
 
             entity.Property(e => e.TourInvoiceId).HasColumnName("tour_invoice_id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -716,7 +727,7 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Booking).WithOne(p => p.TourInvoice)
                 .HasForeignKey<TourInvoice>(d => d.BookingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__tour_invo__booki__0A9D95DB");
+                .HasConstraintName("FK__tour_invo__booki__160F4887");
         });
 
         modelBuilder.Entity<TourPersonQuantity>(entity =>
@@ -732,11 +743,11 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370F81E532FB");
+            entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370F9803E026");
 
             entity.ToTable("user");
 
-            entity.HasIndex(e => e.Email, "UQ__user__AB6E616423EBF9A8").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__user__AB6E61645C4EA636").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Email)
@@ -761,7 +772,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Ward>(entity =>
         {
-            entity.HasKey(e => e.WardId).HasName("PK__ward__396B899D0AE04F65");
+            entity.HasKey(e => e.WardId).HasName("PK__ward__396B899D001C6FC9");
 
             entity.ToTable("ward");
 
@@ -775,7 +786,7 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.District).WithMany(p => p.Wards)
                 .HasForeignKey(d => d.DistrictId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ward__district_i__3F466844");
+                .HasConstraintName("FK__ward__district_i__403A8C7D");
         });
 
         OnModelCreatingPartial(modelBuilder);

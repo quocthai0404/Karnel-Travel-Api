@@ -9,17 +9,19 @@ public partial class Hotel
 
     public string HotelName { get; set; } = null!;
 
-    public string HotelDescription { get; set; } = null!;
+    public string? HotelDescription { get; set; }
 
-    public string HotelPriceRange { get; set; } = null!;
+    public string? HotelPriceRange { get; set; }
 
-    public int LocationId { get; set; }
+    public string? HotelLocation { get; set; }
+
+    public int? LocationId { get; set; }
 
     public bool IsHide { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-    public virtual Location Location { get; set; } = null!;
+    public virtual Location? Location { get; set; }
 
     public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
 
