@@ -2,12 +2,13 @@
 using KarnelTravel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Threading.Tasks;
 
 namespace KarnelTravel.Services;
 
 public class AccountServiceImpl : IAccountService
 {
-    public DatabaseContext db;
+    private DatabaseContext db;
     public AccountServiceImpl(DatabaseContext _db)
     {
         db = _db;
@@ -78,11 +79,7 @@ public class AccountServiceImpl : IAccountService
         return await db.ForgetPasswords.FirstOrDefaultAsync(r => r.Token == token);
     }
 
-    public bool IsActive(string email)
-    {
-        var activeAccount = db.ActiveAccounts.FirstOrDefault(x => x.Email == email);
-        return activeAccount != null && activeAccount.IsActive;
-    }
+    
 
     // if exist email => return true, else => return false
     public async Task<bool> IsExistEmail(string email)
@@ -96,8 +93,10 @@ public class AccountServiceImpl : IAccountService
     {
         var ActiveAccount = FindActiveAccountByEmail(email).Result;
         var account = FindAccountByEmail(email).Result;
-        if (ActiveAccount.IsActive = false || ActiveAccount == null || account == null) { return false; };
+
+        if (ActiveAccount.IsActive == false || ActiveAccount == null || account == null) { return false; };
         return BCrypt.Net.BCrypt.Verify(password, account.Password);
+      
     }
 
     public bool Register(UserDTO userDto, string securityCode)
@@ -148,4 +147,6 @@ public class AccountServiceImpl : IAccountService
             return false;
         }
     }
+
+   
 }

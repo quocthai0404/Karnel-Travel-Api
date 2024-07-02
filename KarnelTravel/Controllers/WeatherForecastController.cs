@@ -1,3 +1,4 @@
+using KarnelTravel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,8 @@ namespace KarnelTravel.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
+    private DatabaseContext db;
+    
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -13,9 +16,10 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, DatabaseContext _db)
     {
         _logger = logger;
+        db = _db;
     }
     [Authorize]
     [HttpGet(Name = "GetWeatherForecast")]
@@ -28,5 +32,10 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+    [Authorize]
+    [HttpGet("abc")]
+    public IActionResult Get2() {
+        return Ok(db.ActiveAccounts.FirstOrDefault(a => a.Email == "thaiphan0804@gmail.com"));
     }
 }

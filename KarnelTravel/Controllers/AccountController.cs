@@ -76,12 +76,10 @@ public class AccountController : ControllerBase
     {
         if (!accountService.Login(account.email, account.password))
         {
-            return BadRequest(new Response { Code = "400", Msg = "Login Failed" });
+            return BadRequest(new Response { Code = "400", Msg = "Login failed, please check your information again" });
         }
 
-        if (!accountService.IsActive(account.email)) {
-            return BadRequest(new Response { Msg = "You need to activate your account before logging in" });
-        }
+        
         var claims = new[] {
             new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
