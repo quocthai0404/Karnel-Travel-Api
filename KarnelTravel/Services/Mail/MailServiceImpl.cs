@@ -1,7 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Net;
 
-namespace KarnelTravel.Services;
+namespace KarnelTravel.Services.Mail;
 
 public class MailServiceImpl : IMailService
 {
@@ -37,7 +37,7 @@ public class MailServiceImpl : IMailService
             return true;
         }
 
-        catch 
+        catch
         {
 
             return false;

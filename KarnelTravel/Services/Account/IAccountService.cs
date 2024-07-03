@@ -1,7 +1,7 @@
 ﻿using KarnelTravel.DTO;
 using KarnelTravel.Models;
 
-namespace KarnelTravel.Services;
+namespace KarnelTravel.Services.Account;
 
 public interface IAccountService
 {
@@ -16,5 +16,5 @@ public interface IAccountService
     public Task<ForgetPassword> FindRecordByToken(string token);
     public bool UpdateAccount(User user);
     public bool DeleteForgetPassRecord(ForgetPassword record);
-    
+
 }

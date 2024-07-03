@@ -1,4 +1,4 @@
-﻿namespace KarnelTravel.Services;
+﻿namespace KarnelTravel.Services.Mail;
 
 public interface IMailService
 {

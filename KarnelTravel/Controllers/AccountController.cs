@@ -1,6 +1,7 @@
 ﻿using KarnelTravel.DTO;
 using KarnelTravel.Models;
-using KarnelTravel.Services;
+using KarnelTravel.Services.Account;
+using KarnelTravel.Services.Mail;
 using KarnelTravel.Validate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

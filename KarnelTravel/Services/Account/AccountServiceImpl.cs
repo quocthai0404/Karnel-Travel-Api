@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Threading.Tasks;
 
-namespace KarnelTravel.Services;
+namespace KarnelTravel.Services.Account;
 
 public class AccountServiceImpl : IAccountService
 {
@@ -25,7 +25,7 @@ public class AccountServiceImpl : IAccountService
         activeRecord.IsActive = true;
         try
         {
-            db.Entry(activeRecord).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.Entry(activeRecord).State = EntityState.Modified;
             return db.SaveChanges() > 0;
         }
         catch
@@ -38,10 +38,13 @@ public class AccountServiceImpl : IAccountService
 
     public bool AddForgetPasswordRecord(string email, string token)
     {
-        try {
+        try
+        {
             db.ForgetPasswords.Add(new ForgetPassword { Email = email, Token = token, Expire = DateTime.Now.AddMinutes(15) });
-            return db.SaveChanges()>0;
-        }catch { 
+            return db.SaveChanges() > 0;
+        }
+        catch
+        {
             return false;
         }
     }
@@ -79,7 +82,7 @@ public class AccountServiceImpl : IAccountService
         return await db.ForgetPasswords.FirstOrDefaultAsync(r => r.Token == token);
     }
 
-    
+
 
     // if exist email => return true, else => return false
     public async Task<bool> IsExistEmail(string email)
@@ -96,7 +99,7 @@ public class AccountServiceImpl : IAccountService
 
         if (ActiveAccount.IsActive == false || ActiveAccount == null || account == null) { return false; };
         return BCrypt.Net.BCrypt.Verify(password, account.Password);
-      
+
     }
 
     public bool Register(UserDTO userDto, string securityCode)
@@ -139,7 +142,7 @@ public class AccountServiceImpl : IAccountService
     {
         try
         {
-            db.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.Entry(user).State = EntityState.Modified;
             return db.SaveChanges() > 0;
         }
         catch
@@ -148,5 +151,5 @@ public class AccountServiceImpl : IAccountService
         }
     }
 
-   
+
 }

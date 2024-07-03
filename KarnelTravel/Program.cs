@@ -1,6 +1,7 @@
 using KarnelTravel.Helpers;
 using KarnelTravel.Models;
-using KarnelTravel.Services;
+using KarnelTravel.Services.Account;
+using KarnelTravel.Services.Mail;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,8 +24,9 @@ builder.Services.AddDbContext<DatabaseContext>(option =>
 
 
 // Add services to the container.
-builder.Services.AddScoped<IAccountService, AccountServiceImpl>();
-builder.Services.AddScoped<IMailService, MailServiceImpl>();
+//builder.Services.AddScoped<IAccountService, AccountServiceImpl>();
+//builder.Services.AddScoped<IMailService, MailServiceImpl>();
+builder.Services.AddCustomServices();
 //
 
 
