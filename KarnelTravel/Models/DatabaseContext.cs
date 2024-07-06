@@ -79,11 +79,11 @@ public partial class DatabaseContext : DbContext
     {
         modelBuilder.Entity<ActiveAccount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__active_a__3213E83F136425EF");
+            entity.HasKey(e => e.Id).HasName("PK__active_a__3213E83F0A9192CB");
 
             entity.ToTable("active_account");
 
-            entity.HasIndex(e => e.Email, "UQ__active_a__AB6E616419EC5111").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__active_a__AB6E61641D7EB53C").IsUnique();
 
             entity.HasIndex(e => e.SecurityCode, "idx_security_code");
 
@@ -101,7 +101,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<AdminAccount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__admin_ac__3213E83FF363CF84");
+            entity.HasKey(e => e.Id).HasName("PK__admin_ac__3213E83FD6CA96E7");
 
             entity.ToTable("admin_account");
 
@@ -118,7 +118,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Airport>(entity =>
         {
-            entity.HasKey(e => e.AirportId).HasName("PK__airport__C795D51631B8A6FE");
+            entity.HasKey(e => e.AirportId).HasName("PK__airport__C795D5160C2EE93D");
 
             entity.ToTable("airport");
 
@@ -135,7 +135,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Beach>(entity =>
         {
-            entity.HasKey(e => e.BeachId).HasName("PK__beach__7DED2FB0347C972E");
+            entity.HasKey(e => e.BeachId).HasName("PK__beach__7DED2FB0C9A3697F");
 
             entity.ToTable("beach");
 
@@ -160,7 +160,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__booking__5DE3A5B1B748715A");
+            entity.HasKey(e => e.BookingId).HasName("PK__booking__5DE3A5B169FF8B8C");
 
             entity.ToTable("booking");
 
@@ -199,7 +199,7 @@ public partial class DatabaseContext : DbContext
                 .HasNoKey()
                 .ToTable("discount");
 
-            entity.HasIndex(e => e.DiscountCode, "UQ__discount__75C1F006F85EE27C").IsUnique();
+            entity.HasIndex(e => e.DiscountCode, "UQ__discount__75C1F006DACF2813").IsUnique();
 
             entity.Property(e => e.DiscountCode)
                 .HasMaxLength(15)
@@ -210,7 +210,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<District>(entity =>
         {
-            entity.HasKey(e => e.DistrictId).HasName("PK__district__2521322B0AD9C3AC");
+            entity.HasKey(e => e.DistrictId).HasName("PK__district__2521322B2475358A");
 
             entity.ToTable("district");
 
@@ -229,18 +229,21 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Facility>(entity =>
         {
-            entity.HasKey(e => e.FacilityId).HasName("PK__facility__B2E8EAAE8CA1B192");
+            entity.HasKey(e => e.FacilityId).HasName("PK__facility__B2E8EAAE9D545117");
 
             entity.ToTable("facility");
 
             entity.Property(e => e.FacilityId).HasColumnName("facility_id");
-            entity.Property(e => e.FacilityName).HasColumnName("facility_name");
+            entity.Property(e => e.FacilityName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("facility_name");
             entity.Property(e => e.IsHide).HasColumnName("is_hide");
         });
 
         modelBuilder.Entity<Flight>(entity =>
         {
-            entity.HasKey(e => e.FlightId).HasName("PK__flight__E3705765DFF33A25");
+            entity.HasKey(e => e.FlightId).HasName("PK__flight__E3705765AC75B7F6");
 
             entity.ToTable("flight");
 
@@ -274,11 +277,11 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<FlightInvoice>(entity =>
         {
-            entity.HasKey(e => e.FlightInvoiceId).HasName("PK__flight_i__54F1175F53DC5466");
+            entity.HasKey(e => e.FlightInvoiceId).HasName("PK__flight_i__54F1175F58EAEAB9");
 
             entity.ToTable("flight_invoice");
 
-            entity.HasIndex(e => e.BookingId, "UQ__flight_i__5DE3A5B099C2B3CD").IsUnique();
+            entity.HasIndex(e => e.BookingId, "UQ__flight_i__5DE3A5B0230AB03A").IsUnique();
 
             entity.Property(e => e.FlightInvoiceId).HasColumnName("flight_invoice_id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -301,7 +304,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<ForgetPassword>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__forget_p__3213E83FAE3BA62D");
+            entity.HasKey(e => e.Id).HasName("PK__forget_p__3213E83F334E67E8");
 
             entity.ToTable("forget_password");
 
@@ -321,7 +324,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Hotel>(entity =>
         {
-            entity.HasKey(e => e.HotelId).HasName("PK__hotel__45FE7E264A2BBC25");
+            entity.HasKey(e => e.HotelId).HasName("PK__hotel__45FE7E26745412A7");
 
             entity.ToTable("hotel");
 
@@ -363,7 +366,7 @@ public partial class DatabaseContext : DbContext
                         .HasConstraintName("fk_hotel_facility__hotel"),
                     j =>
                     {
-                        j.HasKey("HotelId", "FacilityId").HasName("PK__hotel_fa__BED0F08C5A24FD1E");
+                        j.HasKey("HotelId", "FacilityId").HasName("PK__hotel_fa__BED0F08CBD3A681D");
                         j.ToTable("hotel_facility");
                         j.IndexerProperty<int>("HotelId").HasColumnName("hotel_id");
                         j.IndexerProperty<int>("FacilityId").HasColumnName("facility_id");
@@ -372,11 +375,11 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<HotelInvoice>(entity =>
         {
-            entity.HasKey(e => e.HotelInvoiceId).HasName("PK__hotel_in__53B4F48C49A05B44");
+            entity.HasKey(e => e.HotelInvoiceId).HasName("PK__hotel_in__53B4F48C9B2EB024");
 
             entity.ToTable("hotel_invoice");
 
-            entity.HasIndex(e => e.BookingId, "UQ__hotel_in__5DE3A5B05840618C").IsUnique();
+            entity.HasIndex(e => e.BookingId, "UQ__hotel_in__5DE3A5B07C9A5AB1").IsUnique();
 
             entity.Property(e => e.HotelInvoiceId).HasColumnName("hotel_invoice_id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -413,7 +416,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Location>(entity =>
         {
-            entity.HasKey(e => e.LocationId).HasName("PK__location__771831EAD6E709BF");
+            entity.HasKey(e => e.LocationId).HasName("PK__location__771831EABB1D1925");
 
             entity.ToTable("location");
 
@@ -451,7 +454,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Photo>(entity =>
         {
-            entity.HasKey(e => e.PhotoId).HasName("PK__photo__CB48C83D9E4BA305");
+            entity.HasKey(e => e.PhotoId).HasName("PK__photo__CB48C83D6735D86B");
 
             entity.ToTable("photo");
 
@@ -491,7 +494,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Province>(entity =>
         {
-            entity.HasKey(e => e.ProvinceId).HasName("PK__province__08DCB60F0473F63F");
+            entity.HasKey(e => e.ProvinceId).HasName("PK__province__08DCB60F0CA9462F");
 
             entity.ToTable("province");
 
@@ -504,7 +507,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Restaurant>(entity =>
         {
-            entity.HasKey(e => e.RestaurantId).HasName("PK__restaura__3B0FAA91C2215C57");
+            entity.HasKey(e => e.RestaurantId).HasName("PK__restaura__3B0FAA9183DA4325");
 
             entity.ToTable("restaurant");
 
@@ -536,7 +539,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__review__60883D9096A2C78E");
+            entity.HasKey(e => e.ReviewId).HasName("PK__review__60883D902342CBA7");
 
             entity.ToTable("review");
 
@@ -556,12 +559,10 @@ public partial class DatabaseContext : DbContext
 
             entity.HasOne(d => d.Hotel).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.HotelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__review__hotel_id__5FB337D6");
 
             entity.HasOne(d => d.Restaurant).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.RestaurantId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__review__restaura__619B8048");
 
             entity.HasOne(d => d.User).WithMany(p => p.Reviews)
@@ -572,7 +573,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Room>(entity =>
         {
-            entity.HasKey(e => e.RoomId).HasName("PK__room__19675A8AEF42BF74");
+            entity.HasKey(e => e.RoomId).HasName("PK__room__19675A8A17465B6E");
 
             entity.ToTable("room");
 
@@ -610,7 +611,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Site>(entity =>
         {
-            entity.HasKey(e => e.SiteId).HasName("PK__site__B22FDBCABC670A89");
+            entity.HasKey(e => e.SiteId).HasName("PK__site__B22FDBCA4184A8D3");
 
             entity.ToTable("site");
 
@@ -641,7 +642,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<SiteType>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__site_typ__2C000598B3D8FC0A");
+            entity.HasKey(e => e.TypeId).HasName("PK__site_typ__2C00059839633D4E");
 
             entity.ToTable("site_type");
 
@@ -654,7 +655,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Street>(entity =>
         {
-            entity.HasKey(e => e.StreetId).HasName("PK__street__665BB66BAE63CFA4");
+            entity.HasKey(e => e.StreetId).HasName("PK__street__665BB66BDFEDAF89");
 
             entity.ToTable("street");
 
@@ -673,7 +674,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Tour>(entity =>
         {
-            entity.HasKey(e => e.TourId).HasName("PK__tour__4B16B9E660663E24");
+            entity.HasKey(e => e.TourId).HasName("PK__tour__4B16B9E6D0352A8D");
 
             entity.ToTable("tour");
 
@@ -705,11 +706,11 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<TourInvoice>(entity =>
         {
-            entity.HasKey(e => e.TourInvoiceId).HasName("PK__tour_inv__CDD7DA850B835BF1");
+            entity.HasKey(e => e.TourInvoiceId).HasName("PK__tour_inv__CDD7DA85364B66DF");
 
             entity.ToTable("tour_invoice");
 
-            entity.HasIndex(e => e.BookingId, "UQ__tour_inv__5DE3A5B0D565742A").IsUnique();
+            entity.HasIndex(e => e.BookingId, "UQ__tour_inv__5DE3A5B0F597CFEB").IsUnique();
 
             entity.Property(e => e.TourInvoiceId).HasColumnName("tour_invoice_id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -743,11 +744,11 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370FBAC72CE4");
+            entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370FA07CE648");
 
             entity.ToTable("user");
 
-            entity.HasIndex(e => e.Email, "UQ__user__AB6E6164A58D8863").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__user__AB6E61647AFDEBBB").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Email)
@@ -772,7 +773,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<Ward>(entity =>
         {
-            entity.HasKey(e => e.WardId).HasName("PK__ward__396B899D92B7DF46");
+            entity.HasKey(e => e.WardId).HasName("PK__ward__396B899DE0C129B1");
 
             entity.ToTable("ward");
 

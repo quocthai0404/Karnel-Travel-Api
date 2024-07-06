@@ -3,6 +3,7 @@ using KarnelTravel.Models;
 using KarnelTravel.Services.Account;
 using KarnelTravel.Services.Mail;
 using KarnelTravel.Validate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -79,12 +80,13 @@ public class AccountController : ControllerBase
         {
             return BadRequest(new Response { Code = "400", Msg = "Login failed, please check your information again" });
         }
+        var user = accountService.FindAccountByEmail(account.email).Result;
 
         
         var claims = new[] {
             new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("UserId", account.email),
+            new Claim("UserId", user.UserId.ToString()),
             new Claim("Email", account.email)
         };
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
@@ -153,6 +155,19 @@ public class AccountController : ControllerBase
         accountService.DeleteForgetPassRecord(record);
         return Ok(new Response { Code = "200", Msg = "Your Password Has Been Reset", Status = "true" });
 
+    }
+
+    [Authorize]
+    [HttpGet("GetUserId")]
+    public IActionResult GetUserId()
+    {
+        var userId = User.FindFirst("UserId")?.Value;
+        if (userId == null)
+        {
+            return BadRequest(new { Code = "400", Msg = "User ID not found" });
+        }
+
+        return Ok(new { UserId = userId });
     }
 
 }

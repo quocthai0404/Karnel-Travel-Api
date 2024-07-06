@@ -7,7 +7,7 @@ public partial class Facility
 {
     public int FacilityId { get; set; }
 
-    public int FacilityName { get; set; }
+    public string FacilityName { get; set; } = null!;
 
     public bool IsHide { get; set; }
 

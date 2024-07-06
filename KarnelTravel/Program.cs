@@ -1,13 +1,30 @@
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using dotenv.net;
 using KarnelTravel.Helpers;
 using KarnelTravel.Models;
 using KarnelTravel.Services.Account;
 using KarnelTravel.Services.Mail;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
+//Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
+//cloudinary.Api.Secure = true;
+//var uploadParams = new ImageUploadParams()
+//{
+//    File = new FileDescription(@"https://cloudinary-devs.github.io/cld-docs-assets/assets/images/cld-sample.jpg"),
+//    UseFilename = true,
+//    UniqueFilename = false,
+//    Overwrite = true
+//};
+//var uploadResult = cloudinary.Upload(uploadParams);
+//Console.WriteLine(uploadResult.JsonObj);
 
 //develop
 //thai
@@ -27,6 +44,7 @@ builder.Services.AddDbContext<DatabaseContext>(option =>
 //builder.Services.AddScoped<IAccountService, AccountServiceImpl>();
 //builder.Services.AddScoped<IMailService, MailServiceImpl>();
 builder.Services.AddCustomServices();
+
 //
 
 
