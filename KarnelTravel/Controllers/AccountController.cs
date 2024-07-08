@@ -29,7 +29,7 @@ public class AccountController : ControllerBase
 
     //
     [HttpPost("Register")]
-    public async Task<IActionResult> register(UserDTO userDTO)
+    public async Task<IActionResult> register([FromBody] UserDTO userDTO)
     {
         if (string.IsNullOrEmpty(userDTO.Password) || string.IsNullOrEmpty(userDTO.Fullname) || string.IsNullOrEmpty(userDTO.PhoneNumber) || string.IsNullOrEmpty(userDTO.Email)) {
             return BadRequest(new Response { Code = "400", Msg = "All fields must be filled out completely" });
@@ -77,7 +77,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public IActionResult Login(AccountLoginDTO account)
+    public IActionResult Login([FromBody]AccountLoginDTO account)
     {
         if (!accountService.Login(account.email, account.password))
         {
