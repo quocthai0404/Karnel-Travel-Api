@@ -70,6 +70,13 @@ builder.Services.AddAuthentication(options => {
 });
 
 var app = builder.Build();
+app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()
+            );
+builder.Services.AddCors();
 app.UseAuthentication();
 
 app.UseStaticFiles();

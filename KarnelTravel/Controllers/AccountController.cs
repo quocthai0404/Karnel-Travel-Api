@@ -1,4 +1,5 @@
 ﻿using KarnelTravel.DTO;
+using KarnelTravel.Mail;
 using KarnelTravel.Models;
 using KarnelTravel.Services.Account;
 using KarnelTravel.Services.Mail;
@@ -45,7 +46,9 @@ public class AccountController : ControllerBase
 
         string url = configuration["BaseUrl"];
         string securityCode = Helpers.RandomHelper.generateSecurityCode();
-        var mail = new Mail(url + "api/Account/Verify-Your-Account/" + securityCode);
+        var mail = new MailModel(url + "api/Account/Verify-Your-Account/" + securityCode);
+        
+        //var mail = new Mail(url + "api/Account/Verify-Your-Account/" + securityCode);
 
         //add record to db fail 
         if (!accountService.Register(userDTO, securityCode)) {
@@ -53,7 +56,7 @@ public class AccountController : ControllerBase
         }
 
         //send mail fail
-        if (!mailService.Send("karneltravelmailservice@gmail.com", userDTO.Email, "Karnel Travel - Activate Your Account", mail.Email))
+        if (!mailService.Send("karneltravelmailservice@gmail.com", userDTO.Email, "Karnel Travel - Activate Your Account", mail.ActiveMail))
         {
             return BadRequest(new Response { Code = "400", Msg = "The activation email could not be sent, your email may be corrupted or does not exist" });
         }
@@ -104,7 +107,7 @@ public class AccountController : ControllerBase
 
     //forget password
     [HttpPost("ForgetPassword")]
-    public async Task<IActionResult> sendMail(string email)
+    public async Task<IActionResult> sendMail([FromBody]string email)
     {
         if (!await accountService.IsExistEmail(email))
         {
@@ -115,12 +118,12 @@ public class AccountController : ControllerBase
 
         string url = configuration["BaseUrl"];
         string token = Helpers.RandomHelper.generateSecurityCode() + Helpers.RandomHelper.generateSecurityCode();
-        var mail = new Mail(url + "api/Account/ForgetPassword/" + token, true);
+        var mail = new MailModel(url + "api/Account/ForgetPassword/" + token);
         if (!accountService.AddForgetPasswordRecord(email, token)) {
             return BadRequest(new Response { Code = "400", Msg = "You cannot reset your password at this time" });
         }
 
-        if (!mailService.Send("karneltravelmailservice@gmail.com", email, "Karnel Travel - Reset Your Password", mail.Email))
+        if (!mailService.Send("karneltravelmailservice@gmail.com", email, "Karnel Travel - Reset Your Password", mail.ForgetPassMail))
         {
             return BadRequest(new Response { Code = "400", Msg = "The email could not be sent, your email may be corrupted or does not exist" });
         }
@@ -128,8 +131,8 @@ public class AccountController : ControllerBase
 
     }
 
-    [HttpGet("ForgetPassword/{token}")]
-    public IActionResult VerifyToken(string token)
+    [HttpPost("ForgetPassword/VerifyToken")]
+    public IActionResult VerifyToken([FromBody] string token)
     {
         var record = accountService.FindRecordByToken(token).Result;
         if (record == null) {
@@ -143,11 +146,11 @@ public class AccountController : ControllerBase
 
 
     [HttpPost("ResetPassword")]
-    public IActionResult ResetPassword(string token, string newpassword) 
+    public IActionResult ResetPassword([FromBody] ForgetPassDto forgetPass) 
     {
-        var record = accountService.FindRecordByToken(token).Result;
+        var record = accountService.FindRecordByToken(forgetPass.token).Result;
         var account = accountService.FindAccountByEmail(record.Email).Result;
-        account.Password = BCrypt.Net.BCrypt.HashPassword(newpassword);
+        account.Password = BCrypt.Net.BCrypt.HashPassword(forgetPass.newpassword);
         if (!accountService.UpdateAccount(account)) {
             return BadRequest(new Response { Code = "400", Msg = "Reset Your Password Failed" , Status="false"});
         }
