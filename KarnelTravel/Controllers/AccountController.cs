@@ -173,4 +173,9 @@ public class AccountController : ControllerBase
         return Ok(new { UserId = userId });
     }
 
+    [HttpGet("getFullName/{email}")]
+    public IActionResult getFullName(string email)
+    {
+        return Ok(new { result = accountService.getFullName(email) });
+    }
 }

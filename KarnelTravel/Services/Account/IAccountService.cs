@@ -16,5 +16,5 @@ public interface IAccountService
     public Task<ForgetPassword> FindRecordByToken(string token);
     public bool UpdateAccount(User user);
     public bool DeleteForgetPassRecord(ForgetPassword record);
-
+    public string getFullName(string email);
 }

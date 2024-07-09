@@ -82,6 +82,11 @@ public class AccountServiceImpl : IAccountService
         return await db.ForgetPasswords.FirstOrDefaultAsync(r => r.Token == token);
     }
 
+    public string getFullName(string email)
+    {
+        return db.Users.FirstOrDefault(a => a.Email == email && a.IsHide == false).Fullname;
+    }
+
 
 
     // if exist email => return true, else => return false
