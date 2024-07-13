@@ -18,7 +18,14 @@ public class HotelController : ControllerBase
     public IActionResult getHotelsPaginated([FromQuery] QueryObject query) {
         return Ok(new { result = hotelService.listHotelsPaginated(query.PageNumber, pageSize),
             totalPages = hotelService.totalPages(pageSize), 
-            pageSize = pageSize
+            pageSize = pageSize, 
+            totalItem = hotelService.totalItem()
         }); 
+    }
+
+    [HttpGet("Hotel-Details/{hotelId}")]
+    public IActionResult details(int hotelId)
+    {
+        return Ok(hotelService.HotelDetails(hotelId));
     }
 }

@@ -44,9 +44,9 @@ public class AccountController : ControllerBase
             return BadRequest(new Response { Msg = "Error, The email you entered is not valid!" });
         }
 
-        string url = configuration["BaseUrl"];
+        string url = configuration["ClientUrl"];
         string securityCode = Helpers.RandomHelper.generateSecurityCode();
-        var mail = new MailModel(url + "api/Account/Verify-Your-Account/" + securityCode);
+        var mail = new MailModel(url + "Verify-Your-Account/" + securityCode);
         
         //var mail = new Mail(url + "api/Account/Verify-Your-Account/" + securityCode);
 
@@ -68,8 +68,9 @@ public class AccountController : ControllerBase
     }
 
     //
-    [HttpGet("Verify-Your-Account/{securityCode}")]
+    [HttpPost("Verify-Your-Account/{securityCode}")]
     public IActionResult Verify(string securityCode) {
+        Console.WriteLine("lan 1");
         if (accountService.ActiveAccount(securityCode).Result) {
             return Ok(new Response { Code = "200", Msg = "The account has been successfully activated" });
         }
@@ -116,9 +117,9 @@ public class AccountController : ControllerBase
         }
         
 
-        string url = configuration["BaseUrl"];
+        string url = configuration["ClientUrl"];
         string token = Helpers.RandomHelper.generateSecurityCode() + Helpers.RandomHelper.generateSecurityCode();
-        var mail = new MailModel(url + "api/Account/ForgetPassword/" + token);
+        var mail = new MailModel(url + "ForgetPassword/" + token);
         if (!accountService.AddForgetPasswordRecord(email, token)) {
             return BadRequest(new Response { Code = "400", Msg = "You cannot reset your password at this time" });
         }

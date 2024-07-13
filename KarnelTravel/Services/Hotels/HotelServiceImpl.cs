@@ -2,6 +2,7 @@
 using KarnelTravel.Models;
 using KarnelTravel.Services.Facilities;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace KarnelTravel.Services.Hotels;
 
@@ -60,14 +61,45 @@ public class HotelServiceImpl : IHotelService
         }).Skip(skipNumber).Take(pageSize).ToList();
     }
 
-    public List<PhotoDTO> findAllPhoto(int hotelId)
+    public List<PhotoDTO> findAllPhoto(int hotelId, int n)
     {
-        throw new NotImplementedException();
+        return db.Photos.Where(p => p.HotelId == hotelId).Select(p => new PhotoDTO {
+            PhotoId = p.PhotoId,
+            PhotoUrl = p.PhotoUrl,
+            HotelId = p.HotelId,
+        }).Take(n).ToList();
     }
 
-    public HotelDTO findByIdDTO(int id)
+    public dynamic HotelDetails(int id)
     {
-        throw new NotImplementedException();
+        var facilities = facilityService.findAll(id);
+        var hotel = db.Hotels
+            .Select(h => new HotelAndMainPhoto()
+            {
+                HotelId = h.HotelId,
+                HotelName = h.HotelName,
+                HotelDescription = h.HotelDescription,
+                HotelPriceRange = h.HotelPriceRange,
+                HotelLocation = h.HotelLocation,
+                LocationId = h.LocationId,
+                facilities = facilities
+            })
+            .FirstOrDefault(h => h.HotelId == id);
+        var reviews = findAllReview(id);
+        var countReview = reviews.Count();
+        var totalStar = getSumOfReviewStars(id);
+        double star = 0;
+        if (countReview != 0) {
+            star = (double)totalStar / (double)countReview;
+        }
+        return new
+        {
+            hotel = hotel,
+            photos = findAllPhoto(id, 5),
+            listReview = reviews,
+            count = countReview,
+            star = Math.Round(star, 1)
+        };
     }
 
  
@@ -81,8 +113,34 @@ public class HotelServiceImpl : IHotelService
 
     public int totalPages(int pageSize)
     {
-        int totalItems = db.Hotels.Count(b => b.IsHide == false);
+        int totalItems = totalItem();
         int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
         return totalPages;
+    }
+
+    public int totalItem()
+    {
+        return db.Hotels.Count(b => b.IsHide == false);
+    }
+
+    public List<ReviewDto> findAllReview(int hotelId)
+    {
+        return (from review in db.Reviews
+                join user in db.Users on review.UserId equals user.UserId
+                where review.HotelId == hotelId && review.IsHide == false
+                select new ReviewDto
+                {
+                    ReviewId = review.ReviewId,
+                    ReviewStar = review.ReviewStar,
+                    ReviewText = review.ReviewText,
+                    UserId = review.UserId,
+                    UserFullName = user.Fullname,
+                    HotelId = review.HotelId
+                }).ToList();
+    }
+
+    public int getSumOfReviewStars(int hotelId)
+    {
+        return findAllReview(hotelId).Sum(r => r.ReviewStar);
     }
 }
