@@ -68,9 +68,9 @@ public class AccountController : ControllerBase
     }
 
     //
-    [HttpPost("Verify-Your-Account/{securityCode}")]
+    [HttpPost("Verify-Your-Account")]
     public IActionResult Verify(string securityCode) {
-        Console.WriteLine("lan 1");
+        
         if (accountService.ActiveAccount(securityCode).Result) {
             return Ok(new Response { Code = "200", Msg = "The account has been successfully activated" });
         }

@@ -1,5 +1,6 @@
 ﻿using KarnelTravel.DTO;
 using KarnelTravel.Models;
+using KarnelTravel.Query;
 
 namespace KarnelTravel.Services.Hotels;
 

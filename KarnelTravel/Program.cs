@@ -1,6 +1,7 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using dotenv.net;
+
 using KarnelTravel.Helpers;
 using KarnelTravel.Models;
 using KarnelTravel.Services.Account;
@@ -12,6 +13,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers().AddJsonOptions(option => {
+    option.JsonSerializerOptions.Converters.Add(new KarnelTravel.Converters.DateTimeConverter());
+});
 
 DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
 //Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));

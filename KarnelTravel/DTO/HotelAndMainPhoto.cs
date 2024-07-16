@@ -20,5 +20,9 @@ public class HotelAndMainPhoto
 
     public List<FacilityDTO> facilities { get; set; }
 
+    public int countReview  {get; set;}
+    public int totalStar { get; set; }
+    public double star { get; set; }
+
     public string PhotoUrl { get; set; } = "https://res.cloudinary.com/dhee9ysz4/image/upload/v1720448925/dm6mc5s3zagzkl8zrsow.jpg";
 }

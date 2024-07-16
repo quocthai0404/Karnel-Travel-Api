@@ -1,5 +1,6 @@
 ﻿using KarnelTravel.DTO;
 using KarnelTravel.Models;
+using KarnelTravel.Query;
 using KarnelTravel.Services.Facilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -21,8 +22,19 @@ public class HotelServiceImpl : IHotelService
 
 
         var hotelDTOs = findDTOsPaginated(skipNumber, pageSize);
+
+        
+
         var hotelList = hotelDTOs.Select(hotelDTO =>
         {
+            var reviews = findAllReview(hotelDTO.HotelId);
+            var countReview = reviews.Count();
+            var totalStar = getSumOfReviewStars(hotelDTO.HotelId);
+            double star = 0;
+            if (countReview != 0)
+            {
+                star = (double)totalStar / (double)countReview;
+            }
             var hotelAndMainPhoto = new HotelAndMainPhoto()
             {
                 HotelId = hotelDTO.HotelId,
@@ -31,7 +43,10 @@ public class HotelServiceImpl : IHotelService
                 HotelPriceRange = hotelDTO.HotelPriceRange,
                 HotelLocation = hotelDTO.HotelLocation,
                 LocationId = hotelDTO.LocationId,
-                IsHide = hotelDTO.IsHide, 
+                IsHide = hotelDTO.IsHide,
+                countReview = countReview,
+                totalStar = totalStar,
+                star = Math.Round(star, 1),
                 facilities = facilityService.findAll(hotelDTO.HotelId)
             };
 
