@@ -119,7 +119,7 @@ public class AccountController : ControllerBase
 
         string url = configuration["ClientUrl"];
         string token = Helpers.RandomHelper.generateSecurityCode() + Helpers.RandomHelper.generateSecurityCode();
-        var mail = new MailModel(url + "ForgetPassword/" + token);
+        var mail = new MailModel(url + "reset-password/" + token);
         if (!accountService.AddForgetPasswordRecord(email, token)) {
             return BadRequest(new Response { Code = "400", Msg = "You cannot reset your password at this time" });
         }
