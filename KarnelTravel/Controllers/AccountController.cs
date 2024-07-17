@@ -179,4 +179,16 @@ public class AccountController : ControllerBase
     {
         return Ok(new { result = accountService.getFullName(email) });
     }
+
+    [Authorize]
+    [HttpGet("getUserInfo")]
+    public IActionResult getUserInfo()
+    {
+        var userId = User.FindFirst("UserId")?.Value;
+        if (userId == null)
+        {
+            return BadRequest(new { Code = "400", Msg = "User ID not found" });
+        }
+        return Ok(accountService.findById(int.Parse(userId)));
+    }
 }

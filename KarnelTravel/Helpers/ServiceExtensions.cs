@@ -2,6 +2,7 @@
 using KarnelTravel.Services.Account;
 using KarnelTravel.Services.Airport;
 using KarnelTravel.Services.Beach;
+using KarnelTravel.Services.Discounts;
 using KarnelTravel.Services.Facilities;
 using KarnelTravel.Services.Flights;
 using KarnelTravel.Services.Hotels;
@@ -23,5 +24,6 @@ public static class ServiceExtensions
         services.AddScoped<IHotelService, HotelServiceImpl>();
         services.AddScoped<IFacilityService, FacilityServiceImpl>();
         services.AddScoped<IFlightService, FlightServiceImpl>();
+        services.AddScoped<IDiscountService, DiscountServiceImpl>();
     }
 }

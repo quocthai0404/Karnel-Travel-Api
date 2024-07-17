@@ -71,9 +71,7 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<Ward> Wards { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=DESKTOP-6L06R65;Database=Karnel_Travel;user id=sa;password=123456;trusted_connection=true;encrypt=false");
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -470,6 +468,7 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
             entity.Property(e => e.RoomId).HasColumnName("room_id");
             entity.Property(e => e.SiteId).HasColumnName("site_id");
+            entity.Property(e => e.TourId).HasColumnName("tour_id");
 
             entity.HasOne(d => d.Beach).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.BeachId)
@@ -490,6 +489,10 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Site).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.SiteId)
                 .HasConstraintName("FK__photo__site_id__72C60C4A");
+
+            entity.HasOne(d => d.Tour).WithMany(p => p.Photos)
+                .HasForeignKey(d => d.TourId)
+                .HasConstraintName("fk_photo_tour");
         });
 
         modelBuilder.Entity<Province>(entity =>

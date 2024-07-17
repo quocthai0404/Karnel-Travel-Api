@@ -1,4 +1,6 @@
-﻿using KarnelTravel.Services.Account;
+﻿using KarnelTravel.Query;
+using KarnelTravel.Services.Account;
+using KarnelTravel.Services.Airport;
 using KarnelTravel.Services.Flights;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +11,28 @@ namespace KarnelTravel.Controllers;
 public class FlightController : ControllerBase
 {
     private IFlightService flightService;
-    public FlightController(IFlightService _flightService)
+    private IAirportService airportService;
+    public FlightController(IFlightService _flightService, IAirportService _airportService)
     {
         flightService = _flightService;
+        airportService = _airportService;
     }
     [HttpGet("getAllFlight")]
-    public IActionResult getAll() {
-        return Ok(flightService.getAllFlight());
+    public IActionResult getAll([FromQuery] QueryObject ob)
+    {
+        return Ok(flightService.getAllFlight(ob));
+    }
+
+    [HttpGet("getFlightById/{id}")]
+    public IActionResult getFlightById(int id)
+    {
+        
+        return Ok(flightService.GetFlightDTO(id));
+    }
+
+    [HttpGet("getAllAirport")]
+    public IActionResult getAllAirport()
+    {
+        return Ok(airportService.findAll());
     }
 }

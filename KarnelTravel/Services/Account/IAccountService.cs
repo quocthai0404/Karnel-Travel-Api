@@ -17,4 +17,5 @@ public interface IAccountService
     public bool UpdateAccount(User user);
     public bool DeleteForgetPassRecord(ForgetPassword record);
     public string getFullName(string email);
+    public UserDTO findById(int id);
 }

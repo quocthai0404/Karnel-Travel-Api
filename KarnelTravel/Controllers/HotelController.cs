@@ -16,10 +16,11 @@ public class HotelController : ControllerBase
     }
     [HttpGet("HotelsPaginated")]
     public IActionResult getHotelsPaginated([FromQuery] QueryObject query) {
-        return Ok(new { result = hotelService.listHotelsPaginated(query.PageNumber, pageSize),
-            totalPages = hotelService.totalPages(pageSize), 
+        return Ok(new { 
+            result = hotelService.listHotelsPaginated(query, pageSize),
+            totalPages = hotelService.totalPages(query, pageSize), 
             pageSize = pageSize, 
-            totalItem = hotelService.totalItem()
+            totalItem = hotelService.totalItem(query)
         }); 
     }
 
@@ -27,5 +28,17 @@ public class HotelController : ControllerBase
     public IActionResult details(int hotelId)
     {
         return Ok(hotelService.HotelDetails(hotelId));
+    }
+
+    [HttpGet("findNameHotel/{hotelId}")]
+    public IActionResult findNameHotel(int hotelId)
+    {
+        return Ok(new { name = hotelService.findHotelNameById(hotelId) });
+    }
+
+    [HttpGet("Room-Info/{roomId}")]
+    public IActionResult Info(int roomId)
+    {
+        return Ok(hotelService.findRoom(roomId));
     }
 }

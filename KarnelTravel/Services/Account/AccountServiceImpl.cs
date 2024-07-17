@@ -77,6 +77,16 @@ public class AccountServiceImpl : IAccountService
         return await db.ActiveAccounts.FirstOrDefaultAsync(x => x.Email == email);
     }
 
+    public UserDTO findById(int id)
+    {
+        return db.Users.Where(u => u.UserId == id)
+            .Select(u => new UserDTO {
+            Fullname = u.Fullname, 
+            Email = u.Email,
+            PhoneNumber = u.PhoneNumber
+        }).FirstOrDefault();
+    }
+
     public async Task<ForgetPassword> FindRecordByToken(string token)
     {
         return await db.ForgetPasswords.FirstOrDefaultAsync(r => r.Token == token);

@@ -19,6 +19,8 @@ public partial class Photo
 
     public int? SiteId { get; set; }
 
+    public int? TourId { get; set; }
+
     public virtual Beach? Beach { get; set; }
 
     public virtual Hotel? Hotel { get; set; }
@@ -28,4 +30,6 @@ public partial class Photo
     public virtual Room? Room { get; set; }
 
     public virtual Site? Site { get; set; }
+
+    public virtual Tour? Tour { get; set; }
 }
