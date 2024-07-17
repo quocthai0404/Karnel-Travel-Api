@@ -11,7 +11,7 @@ public partial class HotelInvoice
 
     public int RoomId { get; set; }
 
-    public float? RoomPrice { get; set; }
+    public double RoomPrice { get; set; }
 
     public DateTime CheckinDate { get; set; }
 
@@ -23,15 +23,15 @@ public partial class HotelInvoice
 
     public int NumOfDays { get; set; }
 
-    public float SubTotal { get; set; }
+    public double SubTotal { get; set; }
 
-    public float Tax { get; set; }
+    public double Tax { get; set; }
 
     public string? DiscountCode { get; set; }
 
-    public float? DiscountPercent { get; set; }
+    public double DiscountPercent { get; set; }
 
-    public float Total { get; set; }
+    public double Total { get; set; }
 
     public virtual Booking Booking { get; set; } = null!;
 
