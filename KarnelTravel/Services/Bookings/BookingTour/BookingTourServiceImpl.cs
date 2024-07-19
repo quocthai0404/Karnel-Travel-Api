@@ -1,4 +1,5 @@
-﻿using KarnelTravel.Models;
+﻿using KarnelTravel.DTO;
+using KarnelTravel.Models;
 
 namespace KarnelTravel.Services.Bookings.BookingTour;
 
@@ -37,5 +38,32 @@ public class BookingTourServiceImpl : IBookingTourService
                 return false;
             }
         }
+    }
+
+    public List<DetailBookingTour> getAllDetail(List<int> bookingIdTour)
+    {
+        List<DetailBookingTour> listDetailBookingTour = new List<DetailBookingTour>();
+        foreach (var i in bookingIdTour)
+        {
+            var item = db.TourInvoices.Select(inv => new DetailBookingTour()
+            {
+                TourInvoiceId = inv.TourInvoiceId,
+                BookingId = inv.BookingId,
+                TourPrice = inv.TourPrice,
+                NumOfPeople = inv.NumOfPeople,
+                SubTotal = inv.SubTotal,
+                Tax = inv.Tax,
+                DiscountCode = inv.DiscountCode,
+                DiscountPercent = inv.DiscountPercent,
+                Total = inv.Total
+
+            }).FirstOrDefault(inv => inv.BookingId == i);
+            if (item != null)
+            {
+                listDetailBookingTour.Add(item);
+            }
+
+        }
+        return listDetailBookingTour;
     }
 }

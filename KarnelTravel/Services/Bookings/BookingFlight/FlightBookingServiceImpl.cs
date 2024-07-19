@@ -1,4 +1,6 @@
-﻿using KarnelTravel.Models;
+﻿using KarnelTravel.DTO;
+using KarnelTravel.Models;
+using System.Collections.Generic;
 
 namespace KarnelTravel.Services.Bookings.BookingFlight;
 
@@ -37,5 +39,32 @@ public class FlightBookingServiceImpl : IFlightBookingService
                 return false;
             }
         }
+    }
+
+    public List<DetailBookingFlight> getAllDetail(List<int> bookingIdFlight)
+    {
+        var listDetailBookingFlight = new List<DetailBookingFlight>();
+        foreach (var i in bookingIdFlight)
+        {
+            var item = db.FlightInvoices.Select(inv => new DetailBookingFlight()
+            {
+                FlightInvoiceId = inv.FlightInvoiceId,
+                BookingId = inv.BookingId,
+                FlightPrice = inv.FlightPrice,
+                NumOfPassengers = inv.NumOfPassengers,
+                SubTotal = inv.SubTotal,
+                Tax = inv.Tax,
+                DiscountCode = inv.DiscountCode,
+                DiscountPercent = inv.DiscountPercent,
+                Total = inv.Total
+
+            }).FirstOrDefault(inv => inv.BookingId == i);
+            if (item != null)
+            {
+                listDetailBookingFlight.Add(item);
+            }
+
+        }
+        return listDetailBookingFlight;
     }
 }

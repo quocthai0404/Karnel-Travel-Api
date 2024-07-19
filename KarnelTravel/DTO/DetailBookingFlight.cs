@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace KarnelTravel.DTO;
 
-namespace KarnelTravel.Models;
-
-public partial class FlightInvoice
+public class DetailBookingFlight
 {
     public int FlightInvoiceId { get; set; }
 
@@ -22,6 +19,4 @@ public partial class FlightInvoice
     public float? DiscountPercent { get; set; }
 
     public float Total { get; set; }
-
-    public virtual Booking Booking { get; set; } = null!;
 }

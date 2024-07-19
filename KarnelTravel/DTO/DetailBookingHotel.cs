@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace KarnelTravel.DTO;
 
-namespace KarnelTravel.Models;
-
-public partial class HotelInvoice
+public class DetailBookingHotel
 {
     public int HotelInvoiceId { get; set; }
 
@@ -32,8 +29,4 @@ public partial class HotelInvoice
     public float DiscountPercent { get; set; }
 
     public float Total { get; set; }
-
-    public virtual Booking Booking { get; set; } = null!;
-
-    public virtual Room Room { get; set; } = null!;
 }
