@@ -9,19 +9,19 @@ public partial class TourInvoice
 
     public int BookingId { get; set; }
 
-    public float TourPrice { get; set; }
+    public double TourPrice { get; set; }
 
     public int NumOfPeople { get; set; }
 
-    public float SubTotal { get; set; }
+    public double SubTotal { get; set; }
 
-    public float Tax { get; set; }
+    public double Tax { get; set; }
 
     public string? DiscountCode { get; set; }
 
-    public float? DiscountPercent { get; set; }
+    public double? DiscountPercent { get; set; }
 
-    public float Total { get; set; }
+    public double Total { get; set; }
 
     public virtual Booking Booking { get; set; } = null!;
 }

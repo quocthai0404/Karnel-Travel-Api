@@ -2,13 +2,17 @@
 using KarnelTravel.Services.Account;
 using KarnelTravel.Services.Airport;
 using KarnelTravel.Services.Beach;
+using KarnelTravel.Services.Bookings.BookingFlight;
 using KarnelTravel.Services.Bookings.BookingHotel;
+using KarnelTravel.Services.Bookings.BookingTour;
 using KarnelTravel.Services.Discounts;
 using KarnelTravel.Services.Facilities;
 using KarnelTravel.Services.Flights;
 using KarnelTravel.Services.Hotels;
 using KarnelTravel.Services.Mail;
 using KarnelTravel.Services.Photo;
+using KarnelTravel.Services.Reviews;
+using KarnelTravel.Services.Tours;
 
 namespace KarnelTravel.Helpers;
 
@@ -27,5 +31,9 @@ public static class ServiceExtensions
         services.AddScoped<IFlightService, FlightServiceImpl>();
         services.AddScoped<IDiscountService, DiscountServiceImpl>();
         services.AddScoped<IHotelBookingService, HotelBookingServiceImpl>();
+        services.AddScoped<IFlightBookingService, FlightBookingServiceImpl>();
+        services.AddScoped<IBookingTourService, BookingTourServiceImpl>();
+        services.AddScoped<ITourService, TourServiceImpl>();
+        services.AddScoped<IReviewService, ReviewServiceImpl>();
     }
 }

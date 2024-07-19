@@ -68,7 +68,7 @@ public class AccountController : ControllerBase
     }
 
     //
-    [HttpPost("Verify-Your-Account")]
+    [HttpPost("Verify-Your-Account/{securityCode}")]
     public IActionResult Verify(string securityCode) {
         
         if (accountService.ActiveAccount(securityCode).Result) {

@@ -165,6 +165,7 @@ public class HotelServiceImpl : IHotelService
         return (from review in db.Reviews
                 join user in db.Users on review.UserId equals user.UserId
                 where review.HotelId == hotelId && review.IsHide == false
+                orderby review.ReviewId descending
                 select new ReviewDto
                 {
                     ReviewId = review.ReviewId,
